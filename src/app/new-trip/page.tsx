@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/navbar";
+import { Footer } from "@/components/footer"
 import { NewTripForm } from "@/components/new-trip-form";
 import { requireUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -20,6 +21,7 @@ export default async function NewTripPage() {
       <main className="mx-auto max-w-2xl px-4 py-12">
         <NewTripForm userId={user.id} destinations={destinations} />
       </main>
+      <Footer />
     </div>
   );
 }

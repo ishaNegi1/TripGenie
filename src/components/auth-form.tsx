@@ -39,8 +39,8 @@ export function AuthForm({ mode }: AuthFormProps) {
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4 rounded-xl border border-zinc-200 p-6 dark:border-zinc-800">
-      <h1 className="text-xl font-semibold">{mode === "signup" ? "Create account" : "Welcome back"}</h1>
+    <form onSubmit={onSubmit} className="space-y-4 rounded-xl border border-zinc-200 p-6 dark:border-zinc-800 dark:text-amber-100">
+      <h1 className="text-xl font-semibold dark:text-amber-100">{mode === "signup" ? "Create account" : "Welcome back"}</h1>
       <input
         type="email"
         required

@@ -35,10 +35,10 @@ export function NewTripForm({ userId, destinations }: { userId: string; destinat
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-3 rounded-xl border border-zinc-200 p-6 dark:border-zinc-800">
+    <form onSubmit={onSubmit} className="space-y-3 rounded-xl border border-zinc-200 p-6 dark:border-zinc-800 dark:text-amber-100">
       <h1 className="text-xl font-semibold">New Trip</h1>
       <select
-        className="w-full rounded-md border border-zinc-300 bg-transparent px-3 py-2 text-sm dark:border-zinc-700"
+        className="w-full rounded-md border border-zinc-300 bg-transparent px-3 py-2 text-sm dark:border-zinc-700 dark:bg-black"
         value={destination}
         onChange={(e) => setDestination(e.target.value)}
         required
@@ -59,7 +59,7 @@ export function NewTripForm({ userId, destinations }: { userId: string; destinat
       <button
         type="submit"
         disabled={loading || destinations.length === 0}
-        className="rounded-md bg-zinc-900 px-4 py-2 text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900"
+        className="rounded-md cursor-pointer bg-zinc-900 px-4 py-2 text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900 hover:bg-zinc-700 dark:hover:bg-zinc-300 mt-2"
       >
         {loading ? "Creating..." : "Generate Trip"}
       </button>
