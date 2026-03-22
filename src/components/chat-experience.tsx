@@ -141,15 +141,19 @@ export function ChatExperience({ trip, messages: initialMessages, userId }: Chat
       </section>
 
       <section className="space-y-4">
-        {hasItinerary ? (
-          <>
-            {itinerary.days.map((d) => (
-              <ItineraryCard key={d.day} dayData={d} />
-            ))}
-            <BudgetCard summary={itinerary.budget_summary} />
-            <TravelTipsCard tips={itinerary.travel_tips} />
-          </>
-        ) : (
+      {hasItinerary ? (
+  <>
+    {itinerary?.days?.map((d) => (
+      <ItineraryCard key={d.day} dayData={d} />
+    ))}
+    {itinerary?.budget_summary && (
+      <BudgetCard summary={itinerary.budget_summary} />
+    )}
+    {itinerary?.travel_tips && (
+      <TravelTipsCard tips={itinerary.travel_tips} />
+    )}
+  </>
+) : (
           <div className="rounded-xl border border-dashed border-zinc-300 p-6 text-sm text-zinc-600 dark:border-zinc-700 dark:text-zinc-400">
             No itinerary yet. Press "Regenerate Plan" or ask a travel-related question.
           </div>
