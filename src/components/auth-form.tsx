@@ -22,7 +22,6 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   const supabase = createClient();
 
-  // Email + Password Authentication
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault();
 

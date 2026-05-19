@@ -2,9 +2,9 @@ import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-  const requestUrl = new URL(request.url);
+  const { searchParams, origin } = new URL(request.url);
 
-  const code = requestUrl.searchParams.get("code");
+  const code = searchParams.get("code");
 
   if (code) {
     const supabase = await createClient();
@@ -12,7 +12,5 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  return NextResponse.redirect(
-    `${requestUrl.origin}/dashboard`
-  );
+  return NextResponse.redirect(`${origin}/`);
 }
