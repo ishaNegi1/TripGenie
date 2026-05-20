@@ -5,9 +5,9 @@ import { requireUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import {
   Expense,
-  Trip,
   TripMember,
 } from "@/types";
+import { Footer } from "@/components/footer";
 
 export default async function TripExpensesPage({
   params,
@@ -87,6 +87,7 @@ export default async function TripExpensesPage({
           expenses={(expenses ?? []) as Expense[]}
         />
       </main>
+      <Footer />
     </div>
   );
 }
