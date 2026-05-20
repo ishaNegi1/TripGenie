@@ -1,12 +1,15 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChatExperience } from "@/components/chat-experience";
 import { Navbar } from "@/components/navbar";
+import { GroupExpenseManager } from "@/components/group-expense-manager";
 import { requireUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
-import { Message, Trip } from "@/types";
+import {
+  Expense,
+  Trip,
+  TripMember,
+} from "@/types";
 
-export default async function ChatPage({
+export default async function TripExpensesPage({
   params,
 }: {
   params: Promise<{ tripId: string }>;
@@ -28,8 +31,17 @@ export default async function ChatPage({
     notFound();
   }
 
-  const { data: messages } = await supabase
-    .from("messages")
+  const { data: expenses } = await supabase
+    .from("expenses")
+    .select("*")
+    .eq("trip_id", tripId)
+    .eq("user_id", user.id)
+    .order("created_at", {
+      ascending: false,
+    });
+
+  const { data: members } = await supabase
+    .from("trip_members")
     .select("*")
     .eq("trip_id", tripId)
     .eq("user_id", user.id)
@@ -42,37 +54,37 @@ export default async function ChatPage({
       <Navbar showAuthLinks={false} />
 
       <main className="mx-auto max-w-6xl px-4 py-8">
-       
+        
         <div className="mb-8 flex gap-3">
-          <Link
+          <a
             href={`/chat/${tripId}`}
-            className="rounded-md bg-zinc-900 px-4 py-2 text-sm text-white dark:bg-zinc-100 dark:text-zinc-900"
-          >
-            AI Chat
-          </Link>
-
-          <Link
-            href={`/trip-expenses/${tripId}`}
             className="rounded-md border border-zinc-300 px-4 py-2 text-sm dark:border-zinc-700"
           >
+            AI Chat
+          </a>
+
+          <a
+            href={`/trip-expenses/${tripId}`}
+            className="rounded-md bg-zinc-900 px-4 py-2 text-sm text-white dark:bg-zinc-100 dark:text-zinc-900"
+          >
             Expense Manager
-          </Link>
+          </a>
         </div>
 
         <div className="mb-6">
           <h1 className="text-3xl font-bold dark:text-amber-100">
-            {trip.destination} Trip Assistant
+            {trip.destination} Expenses
           </h1>
 
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            Plan your itinerary and manage travel conversations.
+            Track group expenses and settlements.
           </p>
         </div>
 
-        <ChatExperience
-          trip={trip as Trip}
-          messages={(messages ?? []) as Message[]}
-          userId={user.id}
+        <GroupExpenseManager
+          tripId={tripId}
+          members={(members ?? []) as TripMember[]}
+          expenses={(expenses ?? []) as Expense[]}
         />
       </main>
     </div>

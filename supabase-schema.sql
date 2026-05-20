@@ -32,6 +32,25 @@ create table if not exists public.destinations (
   travel_tips text not null
 );
 
+create table if not exists public.trip_members (
+  id uuid primary key default gen_random_uuid(),
+  trip_id uuid not null references public.trips(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  member_name text not null,
+  created_at timestamptz default now()
+);
+
+create table if not exists public.expenses (
+  id uuid primary key default gen_random_uuid(),
+  trip_id uuid not null references public.trips(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  title text not null,
+  amount numeric not null,
+  category text not null,
+  paid_by text not null,
+  created_at timestamptz default now()
+);
+
 create index if not exists destinations_state_idx
   on public.destinations (state);
 
@@ -47,6 +66,8 @@ create index if not exists destinations_city_trgm_idx
 alter table public.trips enable row level security;
 alter table public.messages enable row level security;
 alter table public.destinations enable row level security;
+alter table public.trip_members enable row level security;
+alter table public.expenses enable row level security;
 
 create policy "Users can read own trips"
   on public.trips for select
@@ -71,3 +92,33 @@ create policy "Users can insert own messages"
 create policy "Anyone can read destinations"
   on public.destinations for select
   using (true);
+
+create policy "Users can read own trip members"
+on public.trip_members
+for select
+using (auth.uid() = user_id);
+
+create policy "Users can insert own trip members"
+on public.trip_members
+for insert
+with check (auth.uid() = user_id);
+
+create policy "Users can delete own trip members"
+on public.trip_members
+for delete
+using (auth.uid() = user_id);
+
+create policy "Users can read own expenses"
+on public.expenses
+for select
+using (auth.uid() = user_id);
+
+create policy "Users can insert own expenses"
+on public.expenses
+for insert
+with check (auth.uid() = user_id);
+
+create policy "Users can delete own expenses"
+on public.expenses
+for delete
+using (auth.uid() = user_id);

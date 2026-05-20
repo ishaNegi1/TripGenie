@@ -41,7 +41,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       if (authError) throw authError;
 
-      router.push("/dashboard");
+      router.push("/");
       router.refresh();
     } catch (err) {
       setError(

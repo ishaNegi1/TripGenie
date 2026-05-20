@@ -41,3 +41,22 @@ export type Message = {
   content: string;
   created_at: string;
 };
+
+export type TripMember = {
+  id: string;
+  trip_id: string;
+  user_id: string;
+  member_name: string;
+  created_at: string;
+};
+
+export type Expense = {
+  id: string;
+  trip_id: string;
+  user_id: string;
+  title: string;
+  amount: number;
+  category: string;
+  paid_by: string;
+  created_at: string;
+};
